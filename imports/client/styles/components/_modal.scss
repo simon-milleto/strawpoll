@@ -1,0 +1,22 @@
+.modal {
+  .container {
+    padding: 2rem;
+    text-align: center;
+  }
+  .btn {
+    margin: 1em auto;
+    padding: 1em 2em;
+    outline: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+    border: none;
+    background: $blue;
+    display: block;
+    cursor: pointer;
+
+    .btn--alert {
+      background: $red;
+    }
+  }
+}

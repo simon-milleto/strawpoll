@@ -1,0 +1,17 @@
+.resultbar__single {
+  padding: 5px 0px;
+  .resultbar__single--text {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0px;
+  }
+
+  .resultbar__single--wrapper {
+    width:100%;
+
+    .resultbar__single--bar {
+      height:15px;
+      transition: all 0.2s ease;
+    }
+  }
+}

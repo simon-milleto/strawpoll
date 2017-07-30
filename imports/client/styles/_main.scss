@@ -1,0 +1,86 @@
+//VARIABLES
+$red: #C94E50;
+$red-alt: darken($red, 15%);
+
+$blue: #334D5C;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  color: #555555;
+  font-family: Helvetica, Arial, sans-serif;
+  background-color: #f2f2f2;
+  font-size:1.6rem;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+input, button, select {
+  font-size: 1.3rem;
+}
+
+h1 {
+  color: white;
+  font-weight:300;
+  font-size:2.4rem;
+}
+
+h2 {
+  padding: 1.3rem;
+}
+
+a {
+  text-decoration: none;
+  color: #555555;
+}
+
+a:visited,
+a:hover {
+  color:#555555;
+}
+
+header {
+  background-color: $blue;
+  color: white;
+}
+
+#results {
+  display: flex;
+  justify-content: space-between;
+  .result {
+    width: 50%;
+  }
+}
+
+.message--alert {
+  color: $red;
+}
+
+.message--normal {
+  color: $blue;
+}
+
+path {
+  transition: all 0.2s ease !important;
+}
+
+footer {
+}
+
+@import './components/wrapper';
+@import './components/item';
+@import './components/button';
+@import './components/form';
+@import './components/loader';
+@import './components/tooltip';
+@import './components/resultbar';
+@import './components/modal';
