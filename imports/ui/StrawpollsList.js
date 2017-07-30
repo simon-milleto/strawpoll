@@ -1,6 +1,7 @@
 import React from 'react';
 import {Tracker} from 'meteor/tracker';
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+import FlipMove from 'react-flip-move';
 
 import { Strawpolls } from './../api/strawpolls';
 
@@ -17,40 +18,56 @@ export default class StrawpollsList extends React.Component{
 
   componentWillMount() {
     Tracker.autorun(() => {
-      let strawpolls = Strawpolls.find({}, { sort : {total: -1 }});
+      let sort;
+      switch (this.props.match.params.sort) {
+        case 'recent':
+          this.title = 'Recent';
+          sort = { sort : {date: -1 }};
+          break;
+        case 'old':
+          this.title = 'Old';
+          sort = { sort : {date: 1 }};
+          break;
+        case 'popular':
+          this.title = 'Popular';
+          sort = { sort : {total: -1 }};
+          break;
+      }
+      let strawpolls = Strawpolls.find({}, sort);
       if (strawpolls) {
         this.setState({strawpolls: strawpolls});
       }
     });
   };
 
-  render(){
-    if (this.state.strawpolls) {
-      let strawpolls = this.state.strawpolls.map((strawpoll) => {
+  componentWillReceiveProps = (props) => {
+    if (props.match.url !== this.props.match.url) {
+      this.props.history.push(props.match.url);
+    }
+  };
+
+  renderStrawpoll = () => {
+    if(this.state.strawpolls.length === 0) {
+      return <Loader />;
+    }else{
+      return this.state.strawpolls.map((strawpoll) => {
         return (
           <StrawpollItem key={strawpoll._id} strawpoll={strawpoll}/>
         );
       });
-      return (
-        <div>
-          <h2>Popular strawpolls</h2>
-          <div>
-            {strawpolls}
-          </div>
-        </div>
-      );
     }
+  };
+
+  render(){
     return (
-      <Loader/>
+      <div>
+        <h2>{this.title} strawpolls</h2>
+        <div>
+          <FlipMove duration={400} maintainContainerHeight={true} easing="ease-out">
+            {this.renderStrawpoll()}
+          </FlipMove>
+        </div>
+      </div>
     );
-
   }
-
-  showModal = () => {
-    this.refs.modal.show();
-  };
-
-  hideModal = () => {
-    this.refs.modal.hide();
-  };
 }

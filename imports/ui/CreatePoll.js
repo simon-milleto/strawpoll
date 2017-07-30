@@ -1,33 +1,34 @@
 import React from 'react';
 import createBrowserHistory from 'history/createBrowserHistory'
 import { Redirect } from 'react-router';
+import { WaveModal } from 'boron';
+import { Calendar } from 'react-date-range';
+
 import { Strawpolls } from './../api/strawpolls';
 import history from '../config/history';
 import { COLORS } from '../config/constants';
-import { WaveModal } from 'boron';
 
 
 import Answer from './Answer';
 
 export default class CreatePoll extends React.Component{
-  state = {
-    redirect: false
-  }
-
   constructor(props) {
     super(props);
-    this.state = {};
-    this.answers = [
-      {
-        key: 1
-      },
-      {
-        key: 2
-      },
-      {
-        key: 3
-      },
-    ];
+    this.state = {
+      redirect: false,
+      endDate: false,
+      answers: [
+        {
+          key: 1
+        },
+        {
+          key: 2
+        },
+        {
+          key: 3
+        },
+      ],
+    };
     this.strawpoll;
   }
 
@@ -37,18 +38,44 @@ export default class CreatePoll extends React.Component{
       return <Redirect to={this.strawpoll}/>;
     }
 
+    let calendar = '';
+    if (this.state.endDate) {
+      calendar = <Calendar ref="Calendar"
+        onInit={this.handleCalendar}
+        onChange={this.handleCalendar}
+        theme={{
+          Calendar       : {
+            background   : 'transparent',
+            color        : '#95a5a6',
+            display      : 'block',
+          },
+          DaySelected    : {
+            background   : '#334D5C',
+          },
+          Day            : {
+            transition   : 'transform .1s ease, box-shadow .1s ease, background .1s ease'
+          },
+        }}
+      />
+    }
+
     return (
       <div className="item">
         <form onSubmit={this.handleSubmit} className="form" id="createPoll">
           <input className="form__input" type="text" name="question" placeholder="Question" ref="question"/>
           {
-            this.answers.map((item) => (
+            this.state.answers.map((item) => (
               <Answer key={item.key} handleChange={this.handleChange} />
             ))
           }
           <div className="form__group">
             <input id="multi" type="checkbox" value="multi" name="multi" ref="multi"/>
             <label className="form__label" htmlFor="multi">Allow multiple poll answers</label>
+          </div>
+          <div className="form__group">
+            <input id="endDate" type="checkbox" value="endDate" name="endDate" ref="endDate" onChange={this.handleCalendarChange}/>
+            <label className="form__label" htmlFor="endDate">Closure date for voting</label>
+            {calendar}
           </div>
           <button className="button">Create Poll</button>
         </form>
@@ -100,12 +127,21 @@ export default class CreatePoll extends React.Component{
       this.showModal();
       return false;
     }
+
+    if(this.state.endDate && this.state.closureDate < moment().format('DD/MM/YYYY HH:mm:ss')) {
+      this.message = 'The closure date can\'t be in the past!';
+      this.setState({message: this.message});
+      this.showModal();
+      return false;
+    }
+
     return strawpoll = {
       question: this.refs.question.value,
       options: options,
       multivote: this.refs.multi.checked,
       date: moment().format('DD/MM/YYYY HH:mm:ss'),
-      total: 0
+      total: 0,
+      closureDate: this.state.endDate ? this.state.closureDate : false
     };
   };
 
@@ -124,11 +160,11 @@ export default class CreatePoll extends React.Component{
 
   addInput = () => {
     let answer = {
-      key: this.answers.length + 1,
-      name: `answer_${this.answers.length + 1}`,
+      key: this.state.answers.length + 1,
+      name: `answer_${this.state.answers.length + 1}`,
     };
-    this.answers.push(answer);
-    this.forceUpdate();
+    let answers = [...this.state.answers, answer]
+    this.setState({answers: answers});
   };
 
   getAvailableColor = (options) => {
@@ -142,6 +178,14 @@ export default class CreatePoll extends React.Component{
       }
     });
   }
+
+  handleCalendar = (date) => {
+    this.setState({closureDate: date.format('DD/MM/YYYY HH:mm:ss')})
+  };
+
+  handleCalendarChange = () => {
+    this.setState({endDate: !this.state.endDate});
+  };
 
   showModal = () => {
     this.refs.modal.show();

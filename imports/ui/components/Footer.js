@@ -8,7 +8,8 @@ export default class Footer extends React.Component{
         <div className="wrapper--flex wrapper--fluid">
           <span>Strawpoll - 2017</span>
           <Link to="/">Create your own strawpoll</Link>
-          <Link to="/strawpolls/popular">Most popular strawpoll</Link>
+          <Link to="/strawpolls/popular">Popular</Link>
+          <Link to="/strawpolls/recent">Recent</Link>
         </div>
       </footer>
     );
