@@ -128,12 +128,13 @@ export default class CreatePoll extends React.Component{
       return false;
     }
 
-    if(this.state.endDate && this.state.closureDate < moment().format('DD/MM/YYYY HH:mm:ss')) {
+    if(this.state.endDate && moment(this.state.closureDate, 'DD/MM/YYYY HH:mm:ss') < moment()) {
       this.message = 'The closure date can\'t be in the past!';
       this.setState({message: this.message});
       this.showModal();
       return false;
     }
+
 
     return strawpoll = {
       question: this.refs.question.value,

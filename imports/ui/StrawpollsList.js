@@ -18,31 +18,13 @@ export default class StrawpollsList extends React.Component{
 
   componentWillMount() {
     Tracker.autorun(() => {
-      let sort;
-      switch (this.props.match.params.sort) {
-        case 'recent':
-          this.title = 'Recent';
-          sort = { sort : {date: -1 }};
-          break;
-        case 'old':
-          this.title = 'Old';
-          sort = { sort : {date: 1 }};
-          break;
-        case 'popular':
-          this.title = 'Popular';
-          sort = { sort : {total: -1 }};
-          break;
-      }
-      let strawpolls = Strawpolls.find({}, sort);
-      if (strawpolls) {
-        this.setState({strawpolls: strawpolls});
-      }
+      this.fetchStrawpoll(this.props.match.params.sort);
     });
   };
 
   componentWillReceiveProps = (props) => {
     if (props.match.url !== this.props.match.url) {
-      this.props.history.push(props.match.url);
+      this.fetchStrawpoll(props.match.params.sort)
     }
   };
 
@@ -55,6 +37,28 @@ export default class StrawpollsList extends React.Component{
           <StrawpollItem key={strawpoll._id} strawpoll={strawpoll}/>
         );
       });
+    }
+  };
+
+  fetchStrawpoll = (sorting) => {
+    let sort;
+    switch (sorting) {
+      case 'recent':
+        this.title = 'Recent';
+        sort = { sort : {date: -1 }};
+        break;
+      case 'old':
+        this.title = 'Old';
+        sort = { sort : {date: 1 }};
+        break;
+      case 'popular':
+        this.title = 'Popular';
+        sort = { sort : {total: -1 }};
+        break;
+    }
+    let strawpolls = Strawpolls.find({}, sort);
+    if (strawpolls) {
+      this.setState({strawpolls: strawpolls});
     }
   };
 

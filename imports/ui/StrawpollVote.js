@@ -37,7 +37,24 @@ export default class StrawpollVote extends React.Component{
       let route = `/${this.props.match.params.id}/result`
       return <Redirect to={route}/>;
     }
+
     if (this.state.strawpoll) {
+
+      if (this.state.strawpoll.closureDate && moment(this.state.strawpoll.closureDate, 'DD/MM/YYYY HH:mm:ss') < moment()) {
+        return (
+          <div>
+            <h2>{ this.state.strawpoll.question }</h2>
+            <p>
+              The votes are no longer available, you can still check the results
+              <Link to={this.link}>
+                here
+              </Link>
+            </p>
+
+          </div>
+        ) ;
+      }
+
       const options = this.state.strawpoll.options.map((option) => {
         let type = this.state.strawpoll.multivote ? 'checkbox' : 'radio';
         return (
