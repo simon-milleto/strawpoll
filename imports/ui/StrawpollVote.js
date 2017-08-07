@@ -84,17 +84,31 @@ export default class StrawpollVote extends React.Component{
 
     let inputs = e.target.children;
     let elems = document.getElementById(this.state.strawpoll._id).elements;
+    let vote = false;
     Array.from(elems).forEach((item) => {
       if (item.type === 'checkbox' || item.type === 'radio') {
         if (item.checked) {
+          vote = true;
           Meteor.call('incVoteStrawpoll', this.state.strawpoll._id, item.id);
-          Strawpolls.update(
-            { _id: this.state.strawpoll._id},
-            {$inc: { "total": 1 }}
-          );
+          switch (this.state.strawpoll.checking) {
+            case 'ip':
+
+              break;
+            case 'ip':
+
+              break;
+            default:
+
+          }
           // this.setState({redirect: true});
         }
       }
     });
+    if (vote) {
+      Strawpolls.update(
+        { _id: this.state.strawpoll._id},
+        {$inc: { "total": 1 }}
+      );
+    }
   };
 }

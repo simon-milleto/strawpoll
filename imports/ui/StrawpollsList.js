@@ -67,7 +67,7 @@ export default class StrawpollsList extends React.Component{
       <div>
         <h2>{this.title} strawpolls</h2>
         <div>
-          <FlipMove duration={400} maintainContainerHeight={true} easing="ease-out">
+          <FlipMove duration={2000} maintainContainerHeight={true} easing="ease-out">
             {this.renderStrawpoll()}
           </FlipMove>
         </div>

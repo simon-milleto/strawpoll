@@ -69,12 +69,20 @@ export default class CreatePoll extends React.Component{
             ))
           }
           <div className="form__group">
-            <input id="multi" type="checkbox" value="multi" name="multi" ref="multi"/>
             <label className="form__label" htmlFor="multi">Allow multiple poll answers</label>
+            <input id="multi" type="checkbox" value="multi" name="multi" ref="multi"/>
           </div>
           <div className="form__group">
-            <input id="endDate" type="checkbox" value="endDate" name="endDate" ref="endDate" onChange={this.handleCalendarChange}/>
+            <label className="form__label" htmlFor="checking">Vote checking</label>
+            <select name="checking" id="checking" ref="checking">
+              <option value="unable">No checking</option>
+              <option value="ip">IP checking</option>
+              <option value="cookie">Cookie checking</option>
+            </select>
+          </div>
+          <div className="form__group">
             <label className="form__label" htmlFor="endDate">Closure date for voting</label>
+            <input id="endDate" type="checkbox" value="endDate" name="endDate" ref="endDate" onChange={this.handleCalendarChange}/>
             {calendar}
           </div>
           <button className="button">Create Poll</button>
@@ -142,7 +150,8 @@ export default class CreatePoll extends React.Component{
       multivote: this.refs.multi.checked,
       date: moment().format('DD/MM/YYYY HH:mm:ss'),
       total: 0,
-      closureDate: this.state.endDate ? this.state.closureDate : false
+      closureDate: this.state.endDate ? this.state.closureDate : false,
+      checking: this.refs.checking.value
     };
   };
 
