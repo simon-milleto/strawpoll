@@ -1,11 +1,11 @@
 import {Meteor} from 'meteor/meteor';
 import {Cookies} from 'meteor/ostrio:cookies';
 import {Tracker} from 'meteor/tracker';
+import {HTTP} from 'meteor/http'
 import React from 'react';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom'
-import { WaveModal } from 'boron';
-
+import {WaveModal} from 'boron';
 import {Strawpolls} from './../api/strawpolls';
 
 import Loader from './components/Loader';
@@ -95,7 +95,6 @@ export default class StrawpollVote extends React.Component {
     Array.from(elems).forEach((item) => {
       if (item.type === 'checkbox' || item.type === 'radio') {
         if (item.checked) {
-          vote = true;
           switch (this.state.strawpoll.checking) {
             case 'cookie':
               if (this.cookies.has('polls')) {
@@ -109,16 +108,36 @@ export default class StrawpollVote extends React.Component {
               } else {
                 this.cookies.set('polls', this.state.strawpoll._id);
               }
+              vote = true;
               Meteor.call('incVoteStrawpoll', this.state.strawpoll._id, item.id);
               break;
             case 'ip':
-
+              HTTP.call('GET', 'https://freegeoip.net/json/', {}, (error, result) => {
+                const data = result.data;
+                if (!this.state.strawpoll.ipCheck || (this.state.strawpoll.ipCheck.length > 0 && !this.state.strawpoll.ipCheck.includes(data.ip))) {
+                  Strawpolls.update({
+                    _id: this.state.strawpoll._id
+                  }, {
+                    $push: {
+                      ipCheck: {
+                        $each: [data.ip]
+                      }
+                    }
+                  }, {upsert: true});
+                  vote = true;
+                  Meteor.call('incVoteStrawpoll', this.state.strawpoll._id, item.id);
+                } else {
+                  this.showModal();
+                  return false;
+                }
+              });
               break;
             case 'unable':
+              vote = true;
               Meteor.call('incVoteStrawpoll', this.state.strawpoll._id, item.id);
               break;
           }
-          this.setState({redirect: true});
+          // this.setState({redirect: true});
         }
       }
     });
