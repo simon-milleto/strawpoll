@@ -118,7 +118,7 @@ export default class StrawpollVote extends React.Component {
               Meteor.call('incVoteStrawpoll', this.state.strawpoll._id, item.id);
               break;
           }
-          // this.setState({redirect: true});
+          this.setState({redirect: true});
         }
       }
     });
