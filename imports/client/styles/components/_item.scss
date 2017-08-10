@@ -27,10 +27,3 @@
   font-size: 1.8rem;
   font-weight: 300;
 }
-
-.item--hover {
-  transition: all .2s ease;
-  &:hover {
-    border-left: 10px solid $blue;
-  }
-}

@@ -12,6 +12,7 @@
     "lodash": "^4.17.4",
     "meteor-node-stubs": "~0.2.4",
     "moment": "^2.18.1",
+    "node-sass": "^4.5.3",
     "react": "^15.6.1",
     "react-clipboard.js": "^1.1.2",
     "react-date-range": "^0.9.4",

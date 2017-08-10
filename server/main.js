@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import {Strawpolls} from './../imports/api/strawpolls';
+import { Cookies } from 'meteor/ostrio:cookies';
 
 Meteor.startup(() => {
-
+  const cookies = new Cookies();
 });
 
 Meteor.methods({
