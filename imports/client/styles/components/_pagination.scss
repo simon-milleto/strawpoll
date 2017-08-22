@@ -1,0 +1,27 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+
+  .pagination__single {
+    margin: 2px;
+    border: 0;
+    padding: 5px 10px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all .3s ease;
+    border-radius: 20px;
+
+    &:focus {
+      outline: none;
+    }
+    
+    &:hover{
+      background-color: #DDDDDD;
+    }
+
+    &.active {
+      color: white;
+      background-color: $blue;
+    }
+  }
+}

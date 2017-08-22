@@ -5,6 +5,10 @@
   padding: 1.3rem;
 }
 
+.item__list {
+  min-height: 400px;
+}
+
 .item--flex {
   display: flex;
   justify-content: space-between;
