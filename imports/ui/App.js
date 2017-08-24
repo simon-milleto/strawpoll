@@ -17,7 +17,7 @@ export default class App extends React.Component{
     return (
       <div>
         <Router history={history}>
-          <div>
+          <div className="main">
             <Header/>
             <div className="wrapper wrapper--fluid">
               <Route exact path="/" component={CreatePoll}/>

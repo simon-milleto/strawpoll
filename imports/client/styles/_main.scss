@@ -1,7 +1,6 @@
 //VARIABLES
 $red: #C94E50;
 $red-alt: darken($red, 15%);
-
 $blue: #334D5C;
 
 * {
@@ -17,21 +16,24 @@ body {
   color: #555555;
   font-family: Helvetica, Arial, sans-serif;
   background-color: #f2f2f2;
-  font-size:1.6rem;
+  font-size: 1.6rem;
+  height: 100%;
 }
 
 #app {
   min-height: 100vh;
 }
 
-input, button, select {
+button,
+input,
+select {
   font-size: 1.3rem;
 }
 
 h1 {
   color: white;
-  font-weight:300;
-  font-size:2.4rem;
+  font-weight: 300;
+  font-size: 2.4rem;
 }
 
 h2 {
@@ -43,9 +45,9 @@ a {
   color: #555555;
 }
 
-a:visited,
-a:hover {
-  color:#555555;
+a:hover,
+a:visited {
+  color: #555555;
 }
 
 header {
@@ -57,6 +59,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   .result {
     width: 50%;
   }
@@ -74,9 +77,25 @@ path {
   transition: all 0.2s ease !important;
 }
 
-footer {
+.main {
+  min-height: 100vh;
+  position: relative;
 }
 
+footer {
+  background-color: #3B3B3B;
+  color: #CFCFCF;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 0px;
+  height: 40px;
+  width: 100%;
+
+  a {
+    color: #FFF !important;
+  }
+}
 @import './components/wrapper';
 @import './components/item';
 @import './components/button';

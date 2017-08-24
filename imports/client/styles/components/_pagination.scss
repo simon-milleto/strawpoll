@@ -9,12 +9,12 @@
     background-color: transparent;
     cursor: pointer;
     transition: all .3s ease;
-    border-radius: 20px;
+    border-radius: 5px;
 
     &:focus {
       outline: none;
     }
-    
+
     &:hover{
       background-color: #DDDDDD;
     }
